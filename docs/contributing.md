@@ -4,7 +4,7 @@
 
 ```
 compiler/**/*.tie 源码（sm_err_msg / g_err / return "..." / 消息表 / panic）
-        │  scripts/gen-diagcodes.ps1（tie-main 仓库）
+        │  scripts/gen-diagcodes.tie（tie 生成器）（tie-main 仓库，tie 语言生成器）
         ▼
 diagcode_cat.gen.tie（tiec 内置查表：exact + 最长前缀）
 diagcodes.data.tie（td 表字面量清单：code/key/name/family/src/template；性能敏感读取用 zd 变体）
@@ -22,7 +22,7 @@ docs/errors-eN.md（按标号：成因 + 常见解决方案）
 ## 新增/修订一条消息 / Adding or changing a message
 
 1. 在 tie-main 改消息文本 → 重新生成目录：
-   `powershell -File scripts/gen-diagcodes.ps1`（tie-main 仓库）。
+   `powershell -File scripts/gen-diagcodes.tie（tie 生成器）`（tie-main 仓库，tie 语言生成器）。
 2. 同步 `diagcodes.data.tie`（及性能敏感用的 `diagcodes.zd`）到本仓库 `docs/`。
 3. 重建文档：`powershell -File docs/gen-docs.ps1`（本仓库）。
 4. 若希望该标号有**专属**成因/方案，在 `docs/gen-docs.ps1` 的 `$nameMap`

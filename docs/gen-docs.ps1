@@ -1,7 +1,7 @@
 ﻿# gen-docs.ps1 —— tie-diag 家族文档生成器
 # ============================================================
 # 读 docs/diagcodes.data.tie（td 数据表字面量，由 tie-main/scripts/
-# gen-diagcodes.ps1 生成；不用 JSON），按家族输出 docs/errors-eN.md：
+# gen-diagcodes.tie 生成；不用 JSON），按家族输出 docs/errors-eN.md：
 # 每条标号含 消息模板 / 出处 / 成因 / 常见解决方案。
 # 成因与方案来自内置 nameMap/prefMap（按消息名前缀）；未覆盖的条目用
 # 家族级默认说明兜底。性能敏感读取场景使用 zd 变体
