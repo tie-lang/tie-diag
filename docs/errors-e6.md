@@ -521,7 +521,7 @@ backend — often environment (missing LLVM tools) or compiler-internal.
 - 消息模板 / template：`赋值目标 ' <...> ' 未入作用域（函数  <...> ）`
 - 出处 / source：`/compiler/backend/irgen_stmt.tie`
 - 成因（如何发生）/ cause：赋值目标未声明/类型不匹配/const 赋值
-- 常见解决方案 / common fix：先声明；类型一致；const 不可改
+- 常见解决方案 / common fix：先声明；类型一致；const 不可重新赋值
 
 ## E60075  键值表值类型不匹配
 

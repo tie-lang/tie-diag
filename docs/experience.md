@@ -1,8 +1,8 @@
 # 经验与常见问题总结 / Lessons & common pitfalls
 
 > 这些是 tie 生态开发中反复出现的「经验与常见问题」，对应编译器里的警告标号
-> （W0001..W0023）与若干语义错误。每条先讲**怎么写的**，再讲**坏处**，最后给
-> **修复**。 / Experience distilled into warnings and errors — why a pattern is
+> （W0001..W0023）与若干语义错误。以下各条先给出触发写法，再说明坏处，最后给
+> 出修复建议。 / Experience distilled into warnings and errors — why a pattern is
 > bad and how to fix it.
 
 ## 1. 循环内字符串拼接累积 —— W0003（这样写的坏处）
@@ -49,7 +49,7 @@ while i < n {
 var a: table<i64> = table_new_i64()
 var b = a          // b 与 a 共享同一个底层数组
 table_push(b, 99)
-// a 也变成了 [99] —— 你未必想要
+// a 亦变为 [99] —— 此共享行为往往非预期
 ```
 
 * **坏处**：`var b = a` 是引用共享（浅拷贝），不是深拷贝；对 `b` 的修改会反映到 `a`，
@@ -85,7 +85,7 @@ var t: table<i64> = table_new_i64()
 t[5] = 42            // 不报错、不追加，静默丢弃！
 ```
 
-* **坏处**：`t[i] = v` 在 `i >= len(t)` 时**静默失败**——你以为写进去了，实际没写。
+* **坏处**：`t[i] = v` 在 `i >= len(t)` 时**静默失败**——赋值不生效且无任何提示。
 * **修复**：追加用 `table_push(t, v)`；确知长度再按下标写。
 
 ## 7. 不可变字符串 vs 二进制安全

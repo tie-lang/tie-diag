@@ -1425,7 +1425,7 @@ expansion. Most resolve via the name plus expected/actual.
 - 消息模板 / template：`期望类型，实际是未知节点`
 - 出处 / source：`/compiler/frontend/stype.tie`
 - 成因（如何发生）/ cause：该位置期望类型表达式
-- 常见解决方案 / common fix：补上类型标注，检查类型名/泛型实参
+- 常见解决方案 / common fix：补齐类型标注，并检查类型名与泛型实参
 
 ## E30204  未声明的变量 '?'
 
@@ -1824,14 +1824,14 @@ expansion. Most resolve via the name plus expected/actual.
 - 消息模板 / template：`赋值目标 ' <...> ' 未声明`
 - 出处 / source：`/compiler/frontend/scheck.tie`
 - 成因（如何发生）/ cause：赋值目标未声明/类型不匹配/const 赋值
-- 常见解决方案 / common fix：先声明；类型一致；const 不可改
+- 常见解决方案 / common fix：先声明；类型一致；const 不可重新赋值
 
 ## E30261  赋值类型不匹配
 
 - 消息模板 / template：`赋值类型不匹配：变量 ' <...> ' 类型为  <...> ，表达式为 `
 - 出处 / source：`/compiler/frontend/scheck.tie`
 - 成因（如何发生）/ cause：赋值目标未声明/类型不匹配/const 赋值
-- 常见解决方案 / common fix：先声明；类型一致；const 不可改
+- 常见解决方案 / common fix：先声明；类型一致；const 不可重新赋值
 
 ## E30262  过程宏 '?' 展开失败:
 

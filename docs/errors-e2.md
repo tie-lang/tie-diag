@@ -53,7 +53,7 @@ usually missing semicolons/brackets or keyword misplacement.
 - 消息模板 / template：`块注释未闭合`
 - 出处 / source：`/compiler/frontend/errors.tie`
 - 成因（如何发生）/ cause：块注释 /* ... */ 没有闭合 */
-- 常见解决方案 / common fix：补上 */，或把误写的 /* 改成 /
+- 常见解决方案 / common fix：补齐 */，或将误写的 /* 改为 /
 
 ## E20008  字符串
 
@@ -67,7 +67,7 @@ usually missing semicolons/brackets or keyword misplacement.
 - 消息模板 / template：`字符串未闭合`
 - 出处 / source：`/compiler/frontend/errors.tie`
 - 成因（如何发生）/ cause：字符串字面量缺少结束引号（词法扫描）
-- 常见解决方案 / common fix：补上结束引号；检查多行字符串是否需要拼接
+- 常见解决方案 / common fix：补齐结束引号；检查多行字符串是否需拼接
 
 ## E20010  字符字面量只能包含一个字符
 
@@ -81,7 +81,7 @@ usually missing semicolons/brackets or keyword misplacement.
 - 消息模板 / template：`字符字面量未闭合`
 - 出处 / source：`/compiler/frontend/errors.tie`
 - 成因（如何发生）/ cause：字符字面量缺少结束引号
-- 常见解决方案 / common fix：补上结束引号
+- 常见解决方案 / common fix：补齐结束引号
 
 ## E20012  整数
 
@@ -130,14 +130,14 @@ usually missing semicolons/brackets or keyword misplacement.
 - 消息模板 / template：`期望标识符，实际是 `
 - 出处 / source：`/compiler/frontend/errors.tie`
 - 成因（如何发生）/ cause：该位置期望标识符（名字/关键字），实际是别的符号
-- 常见解决方案 / common fix：检查拼写与关键字位置；是否漏了名字
+- 常见解决方案 / common fix：检查拼写与关键字位置；确认未遗漏标识符名
 
 ## E20019  期望类型，实际是
 
 - 消息模板 / template：`期望类型，实际是 `
 - 出处 / source：`/compiler/frontend/errors.tie`
 - 成因（如何发生）/ cause：该位置期望类型表达式
-- 常见解决方案 / common fix：补上类型标注，检查类型名/泛型实参
+- 常见解决方案 / common fix：补齐类型标注，并检查类型名与泛型实参
 
 ## E20020  未知转义序列 \
 
@@ -186,5 +186,5 @@ usually missing semicolons/brackets or keyword misplacement.
 - 消息模板 / template：`转义符后缺少字符`
 - 出处 / source：`/compiler/frontend/errors.tie`
 - 成因（如何发生）/ cause：转义符 \\ 后没有字符（字符串尾）
-- 常见解决方案 / common fix：补上转义字符，或检查字符串是否提前结束
+- 常见解决方案 / common fix：补齐转义字符，或检查字符串是否提前终止
 
