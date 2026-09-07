@@ -1,4 +1,4 @@
-﻿# 标号是怎么来的 / How codes are minted
+# 标号是怎么来的 / How codes are minted
 
 ## 生成链 / Pipeline
 
@@ -32,7 +32,7 @@ docs/errors-eN.md（按标号：成因 + 常见解决方案）
 ## 警告标号表 / Warning registry
 
 警告编号 W00001.. 由人工维护（`compiler/frontend/diagcode.tie` 的 ensure_warns +
-本仓库 `docs/warnings.md`）；新增警告时两处同步，并写明「这样写的坏处」。
+本仓库 `docs/warnings.md`）；新增警告时两处同步，并写明「潜在影响与处理建议」。
 
 ## E00000 兜底 / Fallback
 

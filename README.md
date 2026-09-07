@@ -1,6 +1,6 @@
-﻿# tie-diag —— tie 编译器诊断标号大全 / tie compiler diagnostic codes
+# tie-diag —— tie 编译器诊断标号大全 / tie compiler diagnostic codes
 
-> 每种标号的**成因（如何发生）**与**常见解决方案**，以及警告的**这样写的坏处**。
+> 每种标号的**成因（如何发生）**与**常见解决方案**，以及警告的**潜在影响与处理建议**。
 > How each code happens and the common fixes — plus why each warning pattern is bad.
 
 本仓库是 [tie-main](https://github.com/tie-lang/tie-main)（tiec 编译器）的配套文档：
@@ -10,7 +10,7 @@ tiec 的所有错误/警告都带 C# 式标号，按本文档逐条查询。
 
 ```
 error[E#####] @行:列: 消息名；期望 x；实际 y；提示。
-warning[W#####] @行:列: 消息名；这样写的坏处与修复建议。
+warning[W#####] @行:列: 消息名；潜在影响与处理建议。
 ```
 
 * `error[E#####]` / `warning[W#####]`：稳定标号（编译报错/警告用），可搜索、可引用、
@@ -48,7 +48,7 @@ warning[W#####] @行:列: 消息名；这样写的坏处与修复建议。
 * [docs/errors-e5.md](docs/errors-e5.md) — CLI 与配置
 * [docs/errors-e6.md](docs/errors-e6.md) — 后端与 IR
 * [docs/errors-e9.md](docs/errors-e9.md) — 内部错误（报 bug 指引）
-* [docs/warnings.md](docs/warnings.md) — 全部警告标号 + 这样写的坏处（详细）
+* [docs/warnings.md](docs/warnings.md) — 全部警告标号 + 潜在影响与处理建议（详细）
 * [docs/experience.md](docs/experience.md) — 经验与常见问题总结
 * [docs/diagcodes.data.tie](docs/diagcodes.data.tie) — 机器可读标号清单（td 表字面量；code/key/name/family/src/template）；性能敏感读取用 [docs/diagcodes.zd](docs/diagcodes.zd)（zd 变体）
 * [docs/contributing.md](docs/contributing.md) — 标号是怎么来的（生成器 + 新增标号流程）
