@@ -10,7 +10,7 @@ diagcode_cat.gen.tie（tiec 内置查表：exact + 最长前缀）
 diagcodes.data.tie（td 表字面量清单：code/key/name/family/src/template；性能敏感读取用 zd 变体）
         │  docs/gen-docs.ps1（本仓库）
         ▼
-docs/errors-eN.md（按标号：成因 + 常见解决方案）
+docs/docs/error.md（按标号：成因 + 常见解决方案）
 ```
 
 * 标号分配：`E` + 5 位纯序号（E00001 起全局连续）；家族（词法 / 语法 / 语义 / 运行时 /

@@ -41,13 +41,7 @@ warning[W#####] @行:列: 消息名；潜在影响与处理建议。
 
 ## 文档导航 / Contents
 
-* [docs/errors-e1.md](docs/errors-e1.md) — 词法（自动目录 + 说明）
-* [docs/errors-e2.md](docs/errors-e2.md) — 语法：成因与常见解决方案（详细）
-* [docs/errors-e3.md](docs/errors-e3.md) — 语义：成因与常见解决方案（详细）
-* [docs/errors-e4.md](docs/errors-e4.md) — 运行时（解释器/内置函数）
-* [docs/errors-e5.md](docs/errors-e5.md) — CLI 与配置
-* [docs/errors-e6.md](docs/errors-e6.md) — 后端与 IR
-* [docs/errors-e9.md](docs/errors-e9.md) — 内部错误（报 bug 指引）
+* [docs/error.md](docs/error.md) — 全部错误标号：按家族分节，每条含消息模板/出处/成因（如何发生）/常见解决方案
 * [docs/warnings.md](docs/warnings.md) — 全部警告标号 + 潜在影响与处理建议（详细）
 * [docs/experience.md](docs/experience.md) — 经验与常见问题总结
 * [docs/diagcodes.data.tie](docs/diagcodes.data.tie) — 机器可读标号清单（td 表字面量；code/key/name/family/src/template）；性能敏感读取用 [docs/diagcodes.zd](docs/diagcodes.zd)（zd 变体）

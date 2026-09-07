@@ -1,7 +1,7 @@
 ﻿# gen-docs.ps1 —— tie-diag 家族文档生成器
 # ============================================================
 # 读 docs/diagcodes.data.tie（td 数据表字面量，由 tie-main/scripts/
-# gen-diagcodes.tie 生成；不用 JSON），按家族输出 docs/errors-eN.md：
+# gen-diagcodes.tie 生成；不用 JSON），按家族分节输出单一 docs/error.md：
 # 每条标号含 消息模板 / 出处 / 成因 / 常见解决方案。
 # 成因与方案来自内置 nameMap/prefMap（按消息名前缀）；未覆盖的条目用
 # 家族级默认说明兜底。性能敏感读取场景使用 zd 变体
@@ -169,19 +169,25 @@ $prefMap = @(
     @{ P = '运行时错误'; C = '运行时异常（除零/越界/桥函数受限）'; F = '按消息定位：除数非 0、下标在界内、避开受限桥' }
 )
 
-# ---------- 生成 ----------
+# ---------- 生成（单文件 docs/error.md，全部家族分节排列） ----------
 $famNames = @{ 1 = "词法 / Lexer"; 2 = "语法 / Parser"; 3 = "语义 / Semantic"; 4 = "运行时 / Runtime"; 5 = "CLI 与配置 / CLI & Config"; 6 = "后端与 IR / Backend & IR"; 7 = "REPL"; 9 = "内部错误 / Internal" }
+$sb = [System.Text.StringBuilder]::new()
+[void]$sb.AppendLine("# 错误标号大全 / Error codes")
+[void]$sb.AppendLine("")
+[void]$sb.AppendLine("> tie 诊断错误共分九大家族（词法/语法/语义/运行时/CLI 与配置/后端与 IR/REPL/内部错误），")
+[void]$sb.AppendLine("> 以下按家族分节、族内按标号排序，每条含**消息模板**、**出处**、**成因（如何发生）**与**常见解决方案**。")
+[void]$sb.AppendLine("> Errors are grouped by family below (lexer, parser, semantic, runtime, CLI & config, backend & IR, REPL, internal); each entry lists the message template, source, cause and a common fix.")
+[void]$sb.AppendLine("")
 foreach ($fam in 1..9) {
     if (-not $famNames.ContainsKey($fam)) { continue }
     $entries = $json | Where-Object { $_.family -eq $fam } | Sort-Object code
+    [void]$sb.AppendLine("## 家族 $fam $($famNames[$fam])")
+    [void]$sb.AppendLine("")
     if ($entries.Count -eq 0) {
-        $body = "# tie 诊断标号（家族 $($famNames[$fam])） / tie diagnostic codes — $($famNames[$fam])`n`n_（暂无条目）_`n"
-        [System.IO.File]::WriteAllText((Join-Path $Repo "docs\errors-e${fam}.md"), $body, [System.Text.UTF8Encoding]::new($false))
+        [void]$sb.AppendLine("_（暂无条目 / no entries）_")
+        [void]$sb.AppendLine("")
         continue
     }
-    $sb = [System.Text.StringBuilder]::new()
-    [void]$sb.AppendLine("# tie 诊断标号（家族 $($famNames[$fam])） / tie diagnostic codes — $($famNames[$fam])")
-    [void]$sb.AppendLine("")
     [void]$sb.AppendLine($famIntro[$fam])
     [void]$sb.AppendLine("")
     foreach ($e in $entries) {
@@ -211,7 +217,7 @@ foreach ($fam in 1..9) {
             $cause = "见家族说明 / see family guidance；消息模板见下。"
             $fix = "按模板与「期望/实际」定位；仍未解时参考 [experience.md](experience.md)。"
         }
-        [void]$sb.AppendLine("## $code  $($e.name)")
+        [void]$sb.AppendLine("### $code  $($e.name)")
         [void]$sb.AppendLine("")
         [void]$sb.AppendLine("- 消息模板 / template：``$($e.template)``")
         [void]$sb.AppendLine("- 出处 / source：``$($e.src)``")
@@ -219,7 +225,7 @@ foreach ($fam in 1..9) {
         [void]$sb.AppendLine("- 常见解决方案 / common fix：$fix")
         [void]$sb.AppendLine("")
     }
-    [System.IO.File]::WriteAllText((Join-Path $Repo "docs\errors-e${fam}.md"), $sb.ToString(), [System.Text.UTF8Encoding]::new($false))
-    Write-Host "[gen-docs] E${fam}: $($entries.Count) 条"
 }
+[System.IO.File]::WriteAllText((Join-Path $Repo "docs\error.md"), $sb.ToString(), [System.Text.UTF8Encoding]::new($false))
+Write-Host "[gen-docs] error.md 生成（$($json.Count) 条）"
 Write-Host "[gen-docs] done"
