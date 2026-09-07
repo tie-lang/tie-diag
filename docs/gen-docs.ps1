@@ -1,16 +1,63 @@
 ﻿# gen-docs.ps1 —— tie-diag 家族文档生成器
 # ============================================================
-# 读 docs/diagcodes.json（由 tie-main/scripts/gen-diagcodes.ps1 生成），
-# 按家族输出 docs/errors-eN.md：每条标号含
-#   消息模板 / 出处 / 成因 / 常见解决方案。
-# 成因与方案来自内置 handMap（按 code 或按消息名前缀）；未覆盖的条目用
-# 家族级默认说明兜底。手工补充说明请编辑本文件的 handMap 与 famIntro。
+# 读 docs/diagcodes.data.tie（td 数据表字面量，由 tie-main/scripts/
+# gen-diagcodes.ps1 生成；不用 JSON），按家族输出 docs/errors-eN.md：
+# 每条标号含 消息模板 / 出处 / 成因 / 常见解决方案。
+# 成因与方案来自内置 nameMap/prefMap（按消息名前缀）；未覆盖的条目用
+# 家族级默认说明兜底。性能敏感读取场景使用 zd 变体
+# （tiec --compress-data diagcodes.data.tie -o diagcodes.zd）。
 #
 # 用法：.\docs\gen-docs.ps1
 
 $ErrorActionPreference = "Stop"
 $Repo = Split-Path -Parent $PSScriptRoot
-$json = Get-Content (Join-Path $Repo "docs\diagcodes.json") -Raw -Encoding UTF8 | ConvertFrom-Json
+
+# ---------- td 解析（自产受控格式：type tie<data> 头 + diagcodes = [ 行式对象数组 ]） ----------
+function Unescape-Td([string]$s) {
+    $sb = New-Object System.Text.StringBuilder
+    $i = 0
+    while ($i -lt $s.Length) {
+        if ($s[$i] -eq '\' -and $i + 1 -lt $s.Length) {
+            $nx = $s[$i + 1]
+            switch ($nx) {
+                'n' { [void]$sb.Append("`n"); $i += 2; continue }
+                'r' { [void]$sb.Append("`r"); $i += 2; continue }
+                't' { [void]$sb.Append("`t"); $i += 2; continue }
+                '"' { [void]$sb.Append('"'); $i += 2; continue }
+                '\' { [void]$sb.Append('\'); $i += 2; continue }
+                default { [void]$sb.Append($nx); $i += 2; continue }
+            }
+        }
+        [void]$sb.Append($s[$i]); $i++
+    }
+    return $sb.ToString()
+}
+
+function Read-TdManifest([string]$path) {
+    $rows = [System.Collections.Generic.List[object]]::new()
+    $lines = [System.IO.File]::ReadAllLines($path, [System.Text.Encoding]::UTF8)
+    foreach ($ln in $lines) {
+        $t = $ln.Trim()
+        if (-not $t.StartsWith('[')) { continue }
+        $rec = [ordered]@{}
+        foreach ($field in @('code', 'key', 'name', 'family', 'src', 'template')) {
+            $m = [regex]::Match($t, '("' + $field + '":\s*)(?:"((?:[^"\\]|\\.)*)"|(\d+))')
+            if ($m.Success) {
+                if ($m.Groups[2].Success) {
+                    $rec[$field] = Unescape-Td $m.Groups[2].Value
+                } else {
+                    $rec[$field] = [int]$m.Groups[3].Value
+                }
+            } else {
+                $rec[$field] = ""
+            }
+        }
+        $rows.Add([PSCustomObject]$rec)
+    }
+    return $rows
+}
+
+$json = Read-TdManifest (Join-Path $Repo "docs\diagcodes.data.tie")
 
 # ---------- 家族介绍 ----------
 $famIntro = @{
@@ -128,12 +175,12 @@ foreach ($fam in 1..9) {
     if (-not $famNames.ContainsKey($fam)) { continue }
     $entries = $json | Where-Object { $_.family -eq $fam } | Sort-Object code
     if ($entries.Count -eq 0) {
-        $body = "# tie 诊断标号 E${fam}xxx — $($famNames[$fam])`n`n_（暂无条目）_`n"
+        $body = "# tie 诊断标号（家族 $($famNames[$fam])） / tie diagnostic codes — $($famNames[$fam])`n`n_（暂无条目）_`n"
         [System.IO.File]::WriteAllText((Join-Path $Repo "docs\errors-e${fam}.md"), $body, [System.Text.UTF8Encoding]::new($false))
         continue
     }
     $sb = [System.Text.StringBuilder]::new()
-    [void]$sb.AppendLine("# tie 诊断标号 E${fam}xxx — $($famNames[$fam]) / tie diagnostic codes")
+    [void]$sb.AppendLine("# tie 诊断标号（家族 $($famNames[$fam])） / tie diagnostic codes — $($famNames[$fam])")
     [void]$sb.AppendLine("")
     [void]$sb.AppendLine($famIntro[$fam])
     [void]$sb.AppendLine("")

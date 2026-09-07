@@ -1,11 +1,11 @@
-# 经验与常见问题总结 / Lessons & common pitfalls
+﻿# 经验与常见问题总结 / Lessons & common pitfalls
 
 > 这些是 tie 生态开发中反复出现的「经验与常见问题」，对应编译器里的警告标号
-> （W0001..W0023）与若干语义错误。以下各条先给出触发写法，再说明坏处，最后给
+> （W00001..W00023）与若干语义错误。以下各条先给出触发写法，再说明坏处，最后给
 > 出修复建议。 / Experience distilled into warnings and errors — why a pattern is
 > bad and how to fix it.
 
-## 1. 循环内字符串拼接累积 —— W0003（这样写的坏处）
+## 1. 循环内字符串拼接累积 —— W00003（这样写的坏处）
 
 ```tie
 var s: string = ""
@@ -43,7 +43,7 @@ while i < n {
 * **修复**：整段用 `string_builder` + `str_byte`（O(1) 字节访问）批量构串；需要逐码点
   迭代用 `for c in s.chars()` 或 `utf.to_chars(s)`。
 
-## 3. 表变量拷贝共享底层数组 —— W0004（这样写的坏处）
+## 3. 表变量拷贝共享底层数组 —— W00004（这样写的坏处）
 
 ```tie
 var a: table<i64> = table_new_i64()
@@ -57,7 +57,7 @@ table_push(b, 99)
 * **修复**：需要独立副本用 `clone`（std/collection 或 `clone` 内置语义）；只想读不要改
   则保留共享即可。
 
-## 4. 浮点相等比较 —— W0001（这样写的坏处）
+## 4. 浮点相等比较 —— W00001（这样写的坏处）
 
 ```tie
 var f: f64 = 0.1 + 0.2
@@ -68,7 +68,7 @@ if f == 0.3 { ... }   // 几乎总是不成立
   导致分支永远走不到。
 * **修复**：误差范围比较 `|a - b| <= eps`（eps 按量级取，如 1e-9）。
 
-## 5. 整数除法截断 —— W0002（这样写的坏处）
+## 5. 整数除法截断 —— W00002（这样写的坏处）
 
 ```tie
 var avg: i64 = total / count   // 7 / 2 == 3，小数被截断
