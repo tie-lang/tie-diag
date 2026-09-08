@@ -57,4 +57,4 @@ warning[W#####] @行:列: 消息名；潜在影响与处理建议。
 
 ## License
 
-* [LICENSE](LICENSE)（Tie Public License v1.2 (TPL 1.2)）
+* [LICENSE](LICENSE)（Tie Public License v2.0 (TPL 2.0)）
