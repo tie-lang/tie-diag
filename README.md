@@ -1,4 +1,4 @@
-# tie-diag —— tie 编译器诊断标号大全 / tie compiler diagnostic codes
+# tdiag —— tie 编译器诊断标号大全 / tie compiler diagnostic codes
 
 > 每种标号的**成因（如何发生）**与**常见解决方案**，以及警告的**潜在影响与处理建议**。
 > How each code happens and the common fixes — plus why each warning pattern is bad.

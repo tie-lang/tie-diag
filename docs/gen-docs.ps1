@@ -1,4 +1,4 @@
-﻿# gen-docs.ps1 —— tie-diag 家族文档生成器
+#﻿# gen-docs.ps1 —— tdiag 家族文档生成器
 # ============================================================
 # 读 docs/diagcodes.data.tie（td 数据表字面量，由 tie-main/scripts/
 # gen-diagcodes.tie 生成；不用 JSON），按家族分节输出单一 docs/error.md：
